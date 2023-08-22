@@ -26,7 +26,6 @@ console.log('myStore',myStore)
 myStore.subscribe(() => {
     console.log('myStore.getState()', myStore.getState());
 })
-console.log('myStore.getState', myStore.getState());
 
 
 
@@ -35,12 +34,12 @@ console.log('myStore.getState', myStore.getState());
 //myStore.dispatch(expandInstructions())
 //myStore.dispatch(collapseInstructions())
 
-
 console.log('myStore.getState()',myStore.getState());
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+//renders it on the Webpae
 root.render(
 <Provider store={myStore} >
 <App />

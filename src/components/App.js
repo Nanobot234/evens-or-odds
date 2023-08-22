@@ -4,8 +4,11 @@ import { Store } from "redux";
 import { startGame, cancelGame} from "../actions/settings"; 
 import Instructions from "./Instructions";
 import { fetchNewDeck } from "../actions/deck";
+import DrawCard from "./DrawCard";
 import fetchStates from "../reducers/fetchStates";
-
+import Card from "./Card";
+import Guess from "./Guess";
+import GameState from "./GameState";
 //import { fetchDeckResult } from "../actions/deck";
 
 
@@ -15,6 +18,8 @@ class App extends Component {
         this.props.startGame() //getting it from the imported function!
 
         this.props.fetchNewDeck() //this calls 
+
+
     }
 
    
@@ -31,15 +36,22 @@ render() {
             </div>
         )
     }
-    console.log("this", this)
+ 
     return (
-        <div>
+        <div style={{textAlign:'center'}}>
             <h2> ♠️ Evens or Odds ♣️</h2>
             {
                 //this is tenary operator to see what should go on
                 this.props.gameStarted ? (
                     <div>
+                        <Guess />
                         <h3>The game is on!</h3>
+                        <GameState />
+                        <br />
+                        <DrawCard />
+                        <br />
+                        <Card />
+                        <br />
                         <button onClick={this.props.cancelGame}>Cancel Game</button>
                       <Instructions />
                     </div>
@@ -64,7 +76,12 @@ render() {
 const  mapStateToProps = state => {
   console.log('state', state)            
 
-  const {gameStarted, fetchState, message} = state
+//  const {gameStarted, fetchState, message} = state
+//using nested destructutre syntax
+const {
+    settings: {gameStarted},
+    deck: {fetchState, message}
+} = state;
 
   return { gameStarted, fetchState, message};
 }

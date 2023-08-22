@@ -1,5 +1,5 @@
 //file to hold reducers in the app
-import { DECK
+import { DECK, DECK_DRAW
 
  } from "../actions/types";
  import fetchStates from "./fetchStates";
@@ -12,13 +12,14 @@ const DEFAULT_DECK = {
 //this is called!
 const deckReducer = (state = DEFAULT_DECK, action) => {
     
-    console.log('state',state, 'action', action)
+    let remaining, deck_id, cards; //declare this to be used with other actions??
+    
         //switch cases
 
     switch(action.type) {
             //make another case, for gettign the fetch deck results back
          case DECK.FETCH_SUCCESS:
-            const {remaining, deck_id} = action //this destrcutres the action parameter. THis is needed since action will have various things
+         ({remaining, deck_id} = action) //this destrcutres the action parameter. THis is needed since action will have various things
             return {...state, 
                     remaining, 
                      deck_id,
@@ -27,6 +28,16 @@ const deckReducer = (state = DEFAULT_DECK, action) => {
             return {... state,
                  message: action.message,
                 fetchState: fetchStates.error};
+        case DECK_DRAW.FETCH_SUCCESS:
+                ({cards, remaining} = action);
+            return {...state, 
+                message: action.message, 
+                cards,
+                remaining,
+                fetchState: fetchStates.success,
+            }
+        case DECK_DRAW.FETCH_ERROR:
+            return {...state, message: action.message, fetchState: fetchStates.error}
             default:
                 return state
     }

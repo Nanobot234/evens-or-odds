@@ -1,4 +1,4 @@
-import { DECK } from "./types";
+import { DECK, DECK_DRAW} from "./types";
 
 //now will make the relevant action methods
 //this function will get the data form the json 
@@ -13,13 +13,16 @@ export const fetchDeckSuccess = deckJson => {
 
 //get the errors
 
+//constant for the API, so that you dont retype it over and over
+const API_ADDRESS = 'https://www.deckofcardsapi.com/api'
+
 export const fetchDeckError = error => {
     return { type: DECK.FETCH_ERROR, message: error.message}
 }
 
 
 export const fetchNewDeck = () => dispatch => {
-    return fetch('https://www.deckofcardsapi.com/api/deck/new/shuffle/')
+    return fetch(`${API_ADDRESS}/deck/new/shuffle/`)
     .then(response => 
         {
             if(response.status !== 200) {
@@ -29,6 +32,30 @@ export const fetchNewDeck = () => dispatch => {
         })  
     .then(json => dispatch(fetchDeckSuccess(json)))
     .catch(error => dispatch(fetchDeckError(error)));
+}
+
+export const fetchDrawCard = deck_id => dispatch => {
+    return fetch(`${API_ADDRESS}/deck/${deck_id}/draw`)
+    .then(response => {
+    if(response.status !== 200){
+        //you have an error here
+        throw new Error('Unsucessful request to deckofcardsapi.com')
+    }
+    return response.json()
+})
+//now continue
+.then(json =>  {
+    //dispath qi
+    console.log()
+    dispatch({
+        type: DECK_DRAW.FETCH_SUCCESS,
+        cards: json.cards,
+        remaining: json.remaining
+    });
+})
+//you will dispatch the erro messsage here now!
+.catch(error => dispatch({type: DECK_DRAW.FETCH_ERROR,error:error.message}))
+    
 }
 
 //.catch(error => dispatch(fetchDeckError(error)))

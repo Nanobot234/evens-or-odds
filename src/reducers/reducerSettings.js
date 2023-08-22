@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = {
 
 //this is called!
 const settingsReducer = (state = DEFAULT_SETTINGS, action) => {
-    console.log('state',state, 'action', action)
+    //console.log('state',state, 'action', action)
         //switch cases
 
     switch(action.type) {

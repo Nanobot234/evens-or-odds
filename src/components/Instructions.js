@@ -49,7 +49,7 @@ Instructions = props => {
 //the parameter is the redux state 
 const setPropsState = state => {
 
-    return {instructionsExpanded: state.instructionsExpanded} //instructionsExpanded is from the actual reduxState
+    return {instructionsExpanded: state.settings.instructionsExpanded} //instructionsExpanded is from the actual reduxState
 
 
 }
@@ -71,7 +71,6 @@ const dispatchForProps = dispatch => {
 //one liner of whats above!
 
 export default connect(
-    
     setPropsState, dispatchForProps)(Instructions);
 
 
